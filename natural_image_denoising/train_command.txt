@@ -1,0 +1,1 @@
+python main.py --dataset Images --cuda --gpuids 2 --upscale_factor 1 --crop_size 64 --batch_size 20 --test_batch_size 1 --epochs 1000 --step 100 --add_noise --convert_L --crop

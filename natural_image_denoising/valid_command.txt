@@ -1,0 +1,1 @@
+python main.py --dataset Images --cuda --gpuids 2 --upscale_factor 1 --crop_size 64 --test_batch_size 1 --test --model model_epoch_5000.pth --add_noise
