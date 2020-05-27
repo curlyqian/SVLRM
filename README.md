@@ -6,4 +6,11 @@ Joint filtering mainly uses an additional guidance image as a prior and transfer
 # Requirement
 ```
 torch
+torchvision
+cv2
+PIL
+numpy
+matplotlib
+math
+os
 ```
