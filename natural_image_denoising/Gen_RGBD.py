@@ -49,8 +49,6 @@ def data_aug(rgb_path = '', depth_path = '', savepath = 'RGBD_data'):
 
 if __name__ == '__main__':
     print('starting data augmentation...')
-    #rgb_path = 'C:/Users/CurlyQian/Desktop/untitled1/DepthSR_training_data/data/images'
-    #depth_path = 'C:/Users/CurlyQian/Desktop/untitled1/DepthSR_training_data/data/depth_gt'
     rgb_path = 'E:/BaiduNetdiskDownload/depth_denoising_test_data_20200521_105703/depth_denoising_test_data/input_rgb'
     depth_path = 'E:/BaiduNetdiskDownload/depth_denoising_test_data_20200521_105703/depth_denoising_test_data/noise_input'
     #rgb_path = 'images'
