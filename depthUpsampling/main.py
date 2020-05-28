@@ -188,8 +188,8 @@ def train(model, criterion, epoch, optimizer, training_data_loader,Loss):
 
         optimizer.zero_grad()  #清空所有被优化过的Variable的梯度.
         model_out = model(input)
-        prediction = torch.zeros(target.shape[0], target.shape[2], target.shape[3]).cuda()
-        prediction = torch.addcmul(prediction,1,model_out[:,0,:,:],input[:,0,:,:])+model_out[:,1,:,:]
+        #prediction = torch.zeros(target.shape[0], target.shape[2], target.shape[3]).cuda()
+        prediction = torch.addcmul(model_out[:,1,:,:],1,model_out[:,0,:,:],input[:,1,:,:])
         loss = criterion(prediction, target[:,0,:,:])
         epoch_loss += loss.item()
         loss.backward()
@@ -214,8 +214,8 @@ def validate(model, criterion, validating_data_loader,PSNR,RMSE):
             target = target.cuda()
 
         model_out = model(input)
-        prediction = torch.zeros(target.shape[0], target.shape[2], target.shape[3]).cuda()
-        prediction = torch.addcmul(prediction, 1, model_out[:, 0, :, :], input[:, 0, :, :]) + model_out[:, 1, :, :]
+        #prediction = torch.zeros(target.shape[0], target.shape[2], target.shape[3]).cuda()
+        prediction = torch.addcmul(model_out[:, 1, :, :], 1, model_out[:, 0, :, :], input[:, 1, :, :])
         mse = criterion(prediction*255.0, target[:,0,:,:]*255.0)
         rmse = sqrt(mse.item())
         psnr = 10 * log10(255.0**2 / mse.item())
@@ -247,8 +247,8 @@ def test(model, criterion, testing_data_loader,PSNR,RMSE):
         avg_rmse_lr += rmse_lr
         avg_psnr_lr += psnr_lr
         model_out = model(input)
-        prediction = torch.zeros(target.shape[0], target.shape[2], target.shape[3]).cuda()
-        prediction = torch.addcmul(prediction, 1, model_out[:, 0, :, :], input[:, 0, :, :]) + model_out[:, 1, :, :]
+        #prediction = torch.zeros(target.shape[0], target.shape[2], target.shape[3]).cuda()
+        prediction = torch.addcmul(model_out[:, 1, :, :], 1, model_out[:, 0, :, :], input[:, 1, :, :])
         mse = criterion(prediction*255.0, target[:, 0, :, :]*255.0)
         rmse = sqrt(mse.item())
         psnr = 10 * log10(255.0**2 / mse.item())
