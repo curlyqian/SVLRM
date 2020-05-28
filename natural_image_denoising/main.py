@@ -192,8 +192,8 @@ def train(model, criterion, epoch, optimizer, training_data_loader,Loss):
 
         optimizer.zero_grad()  #清空所有被优化过的Variable的梯度.
         model_out = model(input)
-        prediction = torch.zeros(target.shape[0], target.shape[2], target.shape[3]).cuda()
-        prediction = torch.addcmul(prediction,1,model_out[:,0,:,:],input[:,0,:,:])+model_out[:,1,:,:]
+        #prediction = torch.zeros(target.shape[0], target.shape[2], target.shape[3]).cuda()
+        prediction = torch.addcmul(model_out[:,1,:,:],1,model_out[:,0,:,:],input[:,1,:,:])
         loss = criterion(prediction, target[:,0,:,:])
         epoch_loss += loss.item()
         loss.backward()
@@ -230,12 +230,9 @@ def validate(model, criterion, validating_data_loader,PSNR,RMSE):
         model_out1 = model(input1)
         model_out2 = model(input2)
         prediction = torch.zeros(target.shape).cuda()
-        prediction[:, 0, :, :] = torch.addcmul(prediction[:, 0, :, :], 1, model_out0[:, 0, :, :], input[:, 0, :, :]) \
-                                 + model_out0[:, 1, :, :]
-        prediction[:, 1, :, :] = torch.addcmul(prediction[:, 1, :, :], 1, model_out1[:, 0, :, :], input[:, 1, :, :]) \
-                                 + model_out1[:, 1, :, :]
-        prediction[:, 2, :, :] = torch.addcmul(prediction[:, 2, :, :], 1, model_out2[:, 0, :, :], input[:, 2, :, :]) \
-                                 + model_out2[:, 1, :, :]
+        prediction[:, 0, :, :] = torch.addcmul(model_out0[:, 1, :, :], 1, model_out0[:, 0, :, :], input[:, 0, :, :])
+        prediction[:, 1, :, :] = torch.addcmul(model_out1[:, 1, :, :], 1, model_out1[:, 0, :, :], input[:, 1, :, :])
+        prediction[:, 2, :, :] = torch.addcmul(model_out2[:, 1, :, :], 1, model_out2[:, 0, :, :], input[:, 2, :, :])
         mse = criterion(prediction, target)
         rmse = sqrt(mse.item())
         psnr = 10 * log10(1.0 / mse.item())
@@ -317,12 +314,9 @@ def test(model, criterion, testing_data_loader):
         model_out2 = model(input2)
 
         prediction = torch.zeros(target.shape).cuda()
-        prediction[:, 0, :, :] = torch.addcmul(prediction[:, 0, :, :], 1, model_out0[:, 0, :, :], input[:, 0, :, :]) \
-                                 + model_out0[:, 1, :, :]
-        prediction[:, 1, :, :] = torch.addcmul(prediction[:, 1, :, :], 1, model_out1[:, 0, :, :], input[:, 1, :, :]) \
-                                 + model_out1[:, 1, :, :]
-        prediction[:, 2, :, :] = torch.addcmul(prediction[:, 2, :, :], 1, model_out2[:, 0, :, :], input[:, 2, :, :]) \
-                                 + model_out2[:, 1, :, :]
+        prediction[:, 0, :, :] = torch.addcmul(model_out0[:, 1, :, :], 1, model_out0[:, 0, :, :], input[:, 0, :, :])
+        prediction[:, 1, :, :] = torch.addcmul(model_out1[:, 1, :, :], 1, model_out1[:, 0, :, :], input[:, 1, :, :])
+        prediction[:, 2, :, :] = torch.addcmul(model_out2[:, 1, :, :], 1, model_out2[:, 0, :, :], input[:, 2, :, :])
         prediction = torch.clamp(prediction,0,1)
         save_image(prediction,num,'results')
         print('NO:', num)
