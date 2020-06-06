@@ -20,7 +20,7 @@ os
 
 ```
 
-#Usage
+# Usage
 ```
 usage: main.py [-h] --dataset DATASET --crop_size CROP_SIZE
                --upscale_factor UPSCALE_FACTOR [--batch_size BATCH_SIZE]
