@@ -244,7 +244,7 @@ def validate(model, criterion, validating_data_loader,PSNR,RMSE):
         avg_psnr / len(validating_data_loader)))
     print("===> Avg. RMSE: {:.4f}".format(
         avg_rmse / len(validating_data_loader)))
-'''
+
 def test(model, criterion, testing_data_loader,PSNR,RMSE):
     avg_psnr = 0
     avg_rmse = 0
@@ -290,8 +290,9 @@ def test(model, criterion, testing_data_loader,PSNR,RMSE):
         avg_psnr / len(testing_data_loader)))
     print("===> Avg. RMSE: {:.4f}".format(
         avg_rmse / len(testing_data_loader)))
+    
 '''
-
+#测试集结果保存成图片
 def test(model, criterion, testing_data_loader):
     num = 0
     for batch in testing_data_loader:
@@ -322,6 +323,7 @@ def test(model, criterion, testing_data_loader):
         print('NO:', num)
         print(prediction)
         num += 1
+'''
 
 def save_image(tensor, num, dir):
   image = tensor.cpu().clone() # we clone the tensor to not do changes on it
